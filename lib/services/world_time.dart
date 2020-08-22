@@ -12,19 +12,26 @@ class WorldTime {
   //Future is temporary placeholder value - like promise in JS
   Future<void> getTime() async{
     // make the request
-    Response response = await get('http://worldtimeapi.org/api/timezone/$url');
-    Map data = jsonDecode(response.body);
-    // print(data);
-    // get properties from data
-    String dateTime = data['datetime'];
-    String offset = data['utc_offset'].substring(1,3);
-    //print(dateTime);
-    //print(offset);
-    // create DateTime Object
-    DateTime now = DateTime.parse(dateTime);
-    now = now.add(Duration(hours: int.parse(offset)));
-   // set the time property
-    time = now.toString();
+    try {
+      Response response = await get('http://worldtimeapi.org/api/timezone/$url');
+      Map data = jsonDecode(response.body);
+      // print(data);
+      // get properties from data
+      String dateTime = data['datetime'];
+      String offset = data['utc_offset'].substring(1,3);
+      //print(dateTime);
+      //print(offset);
+      // create DateTime Object
+      DateTime now = DateTime.parse(dateTime);
+      now = now.add(Duration(hours: int.parse(offset)));
+      // set the time property
+      time = now.toString();
+    }
+    catch(e){
+     print('caught error: $e');
+     time = 'Couldn\'t get time data';
+    }
+
   }
 
 }
