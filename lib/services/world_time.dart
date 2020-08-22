@@ -1,5 +1,6 @@
 import 'package:http/http.dart'; // to fetch/get data from any website
 import 'dart:convert'; // to convert json data from string to map
+import 'package:intl/intl.dart'; // Formating date and time
 
 class WorldTime {
   String location;  // location name for the UI
@@ -25,7 +26,8 @@ class WorldTime {
       DateTime now = DateTime.parse(dateTime);
       now = now.add(Duration(hours: int.parse(offset)));
       // set the time property
-      time = now.toString();
+//      time = now.toString();
+    time = DateFormat.jm().format(now);
     }
     catch(e){
      print('caught error: $e');
