@@ -7,10 +7,11 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Map data = {};
+
   @override
   Widget build(BuildContext context) {
     // passing route data
-    data = ModalRoute.of(context).settings.arguments;
+    data = data.isNotEmpty? data: ModalRoute.of(context).settings.arguments;
     print(data);
     // set background
     String bgImage = data['isDayTime']? 'day.png' : 'night.png';
@@ -33,8 +34,16 @@ class _HomeState extends State<Home> {
               child: Column(
               children: <Widget>[
                 FlatButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/location');
+                onPressed: () async {
+                  dynamic result =  await Navigator.pushNamed(context, '/location');
+                  setState(() {
+                    data = {
+                      'location': result['location'],
+                      'flag': result['flag'],
+                      'time': result['time'],
+                      'isDayTime': result['isDayTime'],
+                    };
+                  });
                 },
                 icon: Icon(
                     Icons.edit_location,
